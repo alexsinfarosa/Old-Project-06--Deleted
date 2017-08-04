@@ -1,26 +1,27 @@
-import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
+import React, { Component } from "react";
+import { inject, observer } from "mobx-react";
 
 // antd
 // import Switch from "antd/lib/switch";
 // import "antd/lib/switch/style/css";
 
-import Button from 'antd/lib/button';
-import 'antd/lib/button/style/css';
+import Button from "antd/lib/button";
+import "antd/lib/button/style/css";
 
 // components
-import Subject from 'components/Subject';
-import State from 'components/State';
-import Station from 'components/Station';
-import DatePicker from 'components/DatePicker';
-import Acknowledgements from 'components/Acknowledgements';
+import Subject from "components/Subject";
+import State from "components/State";
+import Station from "components/Station";
+import DatePicker from "components/DatePicker";
+import Acknowledgements from "components/Acknowledgements";
+import MoreInfo from "components/MoreInfo";
 
-import { Flex, Box } from 'reflexbox';
+import { Flex, Box } from "reflexbox";
 
 // styled-components
-import { SideBarContent, RiskLevel } from './styles';
+import { SideBarContent, RiskLevel } from "./styles";
 
-@inject('store')
+@inject("store")
 @observer
 class SideBar extends Component {
   // toggle Map component
@@ -40,10 +41,10 @@ class SideBar extends Component {
     const { subject, isGraph, isMap } = this.props.store.app;
     return (
       <SideBarContent>
-        <Box mb={2} style={{ textAlign: 'center', letterSpacing: '1px' }}>
+        <Box mb={2} style={{ textAlign: "center", letterSpacing: "1px" }}>
           <h3>
             <a
-              style={{ color: '#B31B1B' }}
+              style={{ color: "#B31B1B" }}
               href="http://www.cornell.edu/"
               target="_blank"
             >
@@ -60,45 +61,35 @@ class SideBar extends Component {
 
         <Box mb={2} mt={2}>
           <Button size="large" icon="environment-o" onClick={this.toggleMap}>
-            {isMap ? 'Hide Map' : 'Display Map'}
+            {isMap ? "Hide Map" : "Display Map"}
           </Button>
         </Box>
 
         {subject.graph &&
           <Box>
             <Button size="large" icon="bar-chart" onClick={this.toggleGraph}>
-              {isGraph ? 'Hide Graph' : 'Display Graph'}
+              {isGraph ? "Hide Graph" : "Display Graph"}
             </Button>
           </Box>}
 
-        {subject.name === 'Strawberries' &&
-          <Flex mt={4} mb={2} column>
-            <h4>Risk Levels</h4>
-            <Flex mt={1} mb={1}>
-              <RiskLevel color="#00A854">Low</RiskLevel>
-              <Box ml={1}>Less than 0.5</Box>
-            </Flex>
-            <Flex mt={1} mb={1}>
-              <RiskLevel color="#FFBF00">Moderate</RiskLevel>
-              <Box ml={1}>Between 0.5 and 0.7</Box>
-            </Flex>
-            <Flex mt={1} mb={1}>
-              <RiskLevel color="#F04134">High</RiskLevel>
-              <Box ml={1}>Above 0.7</Box>
-            </Flex>
-          </Flex>}
-
-        {/* {subject.name === 'Blueberries' &&
-          <Flex mt={4} mb={2} column>
-            <h4>Stage</h4>
-            <Flex mt={1} mb={1}>
-              <Box style={{ color: '#138FE9' }}>Emergence</Box>
-              <Box ml={1}>( > 913)</Box>
-            </Flex>
-          </Flex>} */}
+        <Flex my={4} column>
+          <h4>Degree Days Risk Levels</h4>
+          <Flex my={1}>
+            <RiskLevel color="#00A854">Low</RiskLevel>
+            <Box ml={1}>Less than 613</Box>
+          </Flex>
+          <Flex my={1}>
+            <RiskLevel color="#FFBF00">Moderate</RiskLevel>
+            <Box ml={1}>Between 613 and 863</Box>
+          </Flex>
+          <Flex my={1}>
+            <RiskLevel color="#F04134">High</RiskLevel>
+            <Box ml={1}>Above 863</Box>
+          </Flex>
+        </Flex>
 
         <Acknowledgements />
-
+        <MoreInfo />
       </SideBarContent>
     );
   }

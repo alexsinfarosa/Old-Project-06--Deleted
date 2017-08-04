@@ -102,9 +102,9 @@ export default class BlueberryMaggot extends Component {
 
     const emergence = (text, record, i) => {
       let ddColor = "";
-      if (text < 613) ddColor = "green";
-      if (text > 613 && text <= 864) ddColor = "orange";
-      if (text > 864) ddColor = "red";
+      if (text < 613) ddColor = "#00A854";
+      if (text >= 613 && text <= 864) ddColor = "#FFBF00";
+      if (text > 864) ddColor = "#F04134";
       if (record.missingDay === 1)
         return (
           <Flex justify="center" align="center">
@@ -117,12 +117,15 @@ export default class BlueberryMaggot extends Component {
             justify="center"
             align="center"
             column
-            color={ddColor}
-            style={{ background: "white", borderRadius: "5px" }}
+            style={{
+              background: `${ddColor}`,
+              borderRadius: "5px",
+              color: "white"
+            }}
           >
             <Value>
               {record.cdd}
-              <span style={{ color: "red", marginLeft: "5px" }}>
+              <span style={{ color: "white", marginLeft: "1px" }}>
                 {record.cumulativeMissingDays > 0
                   ? `(+${record.cumulativeMissingDays})`
                   : null}
@@ -138,12 +141,15 @@ export default class BlueberryMaggot extends Component {
           justify="center"
           align="center"
           column
-          color={ddColor}
-          style={{ background: "white", borderRadius: "5px" }}
+          style={{
+            background: `${ddColor}`,
+            borderRadius: "5px",
+            color: "white"
+          }}
         >
           <Value>
             {record.cdd}
-            <span style={{ color: "red", marginLeft: "10px" }}>
+            <span style={{ color: "white", marginLeft: "1px" }}>
               {record.cumulativeMissingDays > 0
                 ? `(+${record.cumulativeMissingDays})`
                 : null}
@@ -371,7 +377,7 @@ export default class BlueberryMaggot extends Component {
                         ? <Table
                             bordered
                             size="small"
-                            columns={columns}
+                            columns={columnsMobile}
                             rowKey={record => record.dateTable}
                             loading={ACISData.length === 0}
                             pagination={false}
@@ -416,7 +422,7 @@ export default class BlueberryMaggot extends Component {
                         : <Table
                             rowClassName={(rec, idx) => this.rowColor(idx)}
                             bordered
-                            size="small"
+                            size="middle"
                             columns={columnsMobile}
                             rowKey={record => record.dateTable}
                             loading={ACISData.length === 0}

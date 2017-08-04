@@ -13,7 +13,7 @@ import "antd/lib/button/style/css";
 
 @inject("store")
 @observer
-class Acknowledgements extends Component {
+class MoreInfo extends Component {
   @observable isVisible = false;
   @action setIsVisible = d => (this.isVisible = d);
 
@@ -26,38 +26,25 @@ class Acknowledgements extends Component {
           icon="info-circle-o"
           onClick={() => this.setIsVisible(true)}
         >
-          Acknowledgments
+          More Info
         </Button>
         <Modal
-          title="Acknowledgments"
+          title="More Info"
           wrapClassName="vertical-center-modal"
           visible={this.isVisible}
           onOk={() => this.setIsVisible(false)}
           onCancel={() => this.setIsVisible(false)}
         >
           <ul>
-            <li>
-              New York State Integrated Pest Management -{" "}
-              <a
-                style={{ color: "black" }}
-                onClick={() => this.setIsVisible(false)}
-                href="https://nysipm.cornell.edu/"
-                target="_blank"
-              >
-                NYSIPM
-              </a>
-            </li>
-            <li>
-              Northeast Regional Climate Center -{" "}
-              <a
-                style={{ color: "black" }}
-                onClick={() => this.setIsVisible(false)}
-                href="http://www.nrcc.cornell.edu/"
-                target="_blank"
-              >
-                NRCC
-              </a>
-            </li>
+            <li>Content...</li>
+            <li>Content...</li>
+            <li>Content...</li>
+            <li>Content...</li>
+            <li>Content...</li>
+            <li>Content...</li>
+            <li>Content...</li>
+            <li>Content...</li>
+            <li>Content...</li>
           </ul>
         </Modal>
       </Flex>
@@ -65,4 +52,4 @@ class Acknowledgements extends Component {
   }
 }
 
-export default Acknowledgements;
+export default MoreInfo;
