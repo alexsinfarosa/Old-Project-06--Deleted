@@ -1,0 +1,81 @@
+.table {
+  text-align: center;
+  font-size: .75rem;
+
+  @media (max-width: 992px) {
+    font-size: .75rem;
+  }
+  @media (max-width: 768px) {
+    font-size: .70rem;
+  }
+  @media (max-width: 400px) {
+    font-size: .70rem;
+  }
+}
+
+.stage {
+  @media (max-width: 992px) {
+    font-size: .75rem;
+  }
+  @media (max-width: 768px) {
+    font-size: .65rem;
+  }
+  @media (max-width: 400px) {
+    font-size: .65rem;
+  }
+}
+
+// .ant-table-row:nth-child(even){
+//     background-color: #F7F7F7;
+//   }
+
+table > .ant-table-thead > tr > th{
+  text-align: center;
+  font-size: .75rem;
+
+  @media (max-width: 992px) {
+    font-size: .75rem;
+  }
+  @media (max-width: 768px) {
+    font-size: .70rem;
+  }
+  @media (max-width: 400px) {
+    font-size: .70rem;
+  }
+}
+
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+  word-break: normal !important;
+}
+
+.low {
+  background: #EEFAE5;
+}
+
+.moderate {
+  background: #FDF2DD;
+}
+
+.high {
+  background: #FCE2E1;
+}
+
+.past {
+  background: #CCFFFF;
+}
+.forecast {
+  background: #EEE8AA;
+}
+
+
+/* use css to set position of modal */
+// Use flex which not working in IE
+.vertical-center-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vertical-center-modal .ant-modal {
+  top: 0;
+}
