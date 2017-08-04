@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
-import { TileLayer, Marker } from 'react-leaflet';
-import L from 'leaflet';
+import React, { Component } from "react";
+import { inject, observer } from "mobx-react";
+import { TileLayer, Marker } from "react-leaflet";
+import L from "leaflet";
 // import { toJS } from "mobx";
 
 // states
-import { states } from 'config/states';
+import { states } from "config/states";
 
 // styled-components
-import { MapContainer } from './styles';
+import { MapContainer } from "./styles";
 
 // reflexbox
-import { Flex, Box } from 'reflexbox';
+import { Flex, Box } from "rebass";
 
 const myIcon = e =>
   L.icon({
     iconUrl: e
   });
 
-@inject('store')
+@inject("store")
 @observer
 export default class TheMap extends Component {
   onClickSetStation = e => {
@@ -28,7 +28,7 @@ export default class TheMap extends Component {
       station => station.lat === lat && station.lon === lng
     );
 
-    if (state.name === 'All States') {
+    if (state.name === "All States") {
       this.props.store.app.setStateFromEntireMap(selectedStation.state);
       this.props.store.app.setStation(selectedStation.name);
       this.props.store.app.setIsMap(false);
@@ -85,8 +85,8 @@ export default class TheMap extends Component {
     // <Rectangle bounds={toJS(state.bbox)} />
 
     return (
-      <Flex justify="center">
-        <Box mb={4} col={12} lg={12} md={12} sm={12}>
+      <Flex>
+        <Box mb={4} w={1}>
           <MapContainer
             zoomControl={true}
             scrollWheelZoom={false}
