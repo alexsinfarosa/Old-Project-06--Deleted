@@ -1,1 +1,0 @@
-NEWA Beet Model
