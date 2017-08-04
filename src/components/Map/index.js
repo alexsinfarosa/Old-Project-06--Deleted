@@ -85,8 +85,8 @@ export default class TheMap extends Component {
     // <Rectangle bounds={toJS(state.bbox)} />
 
     return (
-      <Flex>
-        <Box mb={4} w={1}>
+      <Flex justify="center">
+        <Box mb={2} w={["100%", "90", "90%"]}>
           <MapContainer
             zoomControl={true}
             scrollWheelZoom={false}

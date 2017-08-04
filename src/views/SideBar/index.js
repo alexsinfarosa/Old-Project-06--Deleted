@@ -72,21 +72,22 @@ class SideBar extends Component {
             </Button>
           </Box>}
 
-        <Flex my={4} column>
-          <h4>Degree Days Risk Levels</h4>
-          <Flex my={1}>
-            <RiskLevel color="#00A854">Low</RiskLevel>
-            <Box ml={1}>Less than 613</Box>
-          </Flex>
-          <Flex my={1}>
-            <RiskLevel color="#FFBF00">Moderate</RiskLevel>
-            <Box ml={1}>Between 613 and 863</Box>
-          </Flex>
-          <Flex my={1}>
-            <RiskLevel color="#F04134">High</RiskLevel>
-            <Box ml={1}>Above 863</Box>
-          </Flex>
-        </Flex>
+        {true &&
+          <Flex my={4} column>
+            <h4>Degree Days Risk Levels</h4>
+            <Flex my={1}>
+              <RiskLevel color="#00A854">Low</RiskLevel>
+              <Box ml={1}>Less than 613</Box>
+            </Flex>
+            <Flex my={1}>
+              <RiskLevel color="#FFBF00">Moderate</RiskLevel>
+              <Box ml={1}>Between 613 and 863</Box>
+            </Flex>
+            <Flex my={1}>
+              <RiskLevel color="#F04134">High</RiskLevel>
+              <Box ml={1}>Above 863</Box>
+            </Flex>
+          </Flex>}
 
         <Acknowledgements />
         <MoreInfo />

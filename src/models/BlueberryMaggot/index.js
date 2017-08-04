@@ -108,7 +108,7 @@ export default class BlueberryMaggot extends Component {
       if (record.missingDay === 1)
         return (
           <Flex justify="center" align="center">
-            <Value>No data</Value>
+            <Value>NA</Value>
           </Flex>
         );
       if (text > 913) {
