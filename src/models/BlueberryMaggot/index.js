@@ -354,7 +354,9 @@ export default class BlueberryMaggot extends Component {
               <i>
                 Blueberry maggot emergence is predicted to occur when
                 approximately <span style={{ color: "black" }}>913</span> degree
-                days, base 50 ˚F, have accumulated from January 1st.
+                days, base 50 ˚F, have accumulated from January 1st. The
+                blueberry maggot degree day model uses the Baskerville Emin
+                formula.
               </i>
             </Box>
           </Flex>
@@ -363,10 +365,13 @@ export default class BlueberryMaggot extends Component {
             <Flex column>
               <Flex>
                 <Box my={1} fontSize={1} w={["100%", "90", "90%"]}>
-                  Accumulated degree days (base 50°F) from 01/01/{startDateYear}{" "}
-                  through {format(endDate, "MM/DD/YYYY")}:{" "}
-                  <span style={{ color: "black" }}>{todayCDD()}</span>
-                  <small> ({` ${missingDays()}`} days missing )</small>
+                  <span style={{ color: "black" }}>
+                    Accumulated degree days (base 50°F) from 01/01/{startDateYear}{" "}
+                    through {format(endDate, "MM/DD/YYYY")}: {todayCDD()}
+                  </span>
+                  <small>
+                    {" "}({` ${missingDays()}`} days missing )
+                  </small>
                 </Box>
               </Flex>
 
@@ -438,21 +443,24 @@ export default class BlueberryMaggot extends Component {
 
               <Flex
                 my={2}
-                justify="space-around"
+                justify="space-between"
                 align="baseline"
                 w={["100%", "90%", "90%"]}
               >
-                <Box>
-                  <a
-                    target="_blank"
-                    href={`http://forecast.weather.gov/MapClick.php?textField1=${station.lat}&textField2=${station.lon}`}
-                    type="secondary"
-                  >
-                    Forecast Details
-                  </a>
-                </Box>
+                <Box>NA - not available</Box>
 
                 <Box>
+                  <Button
+                    type="secondary"
+                    icon="link"
+                    target="_blank"
+                    href={`http://forecast.weather.gov/MapClick.php?textField1=${station.lat}&textField2=${station.lon}`}
+                  >
+                    {" "}Forecast Details
+                  </Button>
+                </Box>
+
+                {/* <Box>
                   <Button type="secondary" icon="download">
                     <CSVButton
                       data={CSVData.slice()}
@@ -462,7 +470,7 @@ export default class BlueberryMaggot extends Component {
                       Download CSV
                     </CSVButton>
                   </Button>
-                </Box>
+                </Box> */}
               </Flex>
 
               <Flex my={1}>
