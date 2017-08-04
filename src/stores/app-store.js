@@ -10,6 +10,7 @@ export default class AppStore {
 
   // logic----------------------------------------------------------------------
   @observable protocol = window.location.protocol;
+
   @computed
   get areRequiredFieldsSet() {
     return (
@@ -18,6 +19,7 @@ export default class AppStore {
       Object.keys(this.station).length !== 0
     );
   }
+
   @observable isVisible = true;
   @action setIsVisible = () => (this.isVisible = !this.isVisible);
 
@@ -53,16 +55,19 @@ export default class AppStore {
   subjects = [
     { name: "Blueberry Maggot", diseases: ["Blueberrie Maggot"], graph: true }
   ];
+
   @observable
   subject = JSON.parse(localStorage.getItem("berry")) || {
     name: "Blueberry Maggot",
     diseases: ["Blueberrie Maggot"],
     graph: true
   };
+
   @computed
   get isSubject() {
     return Object.keys(this.subject).length !== 0;
   }
+
   @action
   setSubject = d => {
     this.subject = this.subjects.find(subject => subject.name === d);
@@ -95,22 +100,28 @@ export default class AppStore {
 
   // Station--------------------------------------------------------------------
   @observable stations = [];
+
   @action setStations = d => (this.stations = d);
+
   @computed
   get stationsWithMatchedIcons() {
     return matchIconsToStations(this.protocol, this.stations, this.state);
   }
+
   @computed
   get getCurrentStateStations() {
     return this.stations.filter(
       station => station.state === this.state.postalCode
     );
   }
+
   @observable station = JSON.parse(localStorage.getItem("station")) || {};
+
   @computed
   get getStation() {
     return this.station;
   }
+
   @action
   setStation = stationName => {
     localStorage.removeItem("station");
@@ -120,16 +131,20 @@ export default class AppStore {
 
   // Dates----------------------------------------------------------------------
   @observable currentYear = new Date().getFullYear().toString();
+
   @observable endDate = format(new Date(), "YYYY-MM-DD");
+
   @action
   setEndDate = d => {
     this.endDate = format(d, "YYYY-MM-DD");
     // localStorage.setItem("endDate", JSON.stringify(this.endDate));
   };
+
   @computed
   get startDate() {
     return `${format(this.endDate, "YYYY")}-01-01`;
   }
+
   @computed
   get startDateYear() {
     return format(this.endDate, "YYYY");
@@ -137,6 +152,7 @@ export default class AppStore {
 
   // ACISData ------------------------------------------------------------------
   @observable ACISData = [];
+
   @action
   setACISData = d => {
     this.ACISData = d;
@@ -149,6 +165,7 @@ export default class AppStore {
   }
 
   @observable CSVData = [];
+
   @action
   setCSVData() {
     this.ACISData.forEach(obj => {
@@ -166,6 +183,7 @@ export default class AppStore {
   }
 
   @observable bmModel = [];
+
   @action
   loadBmModel() {
     this.isLoading = true;

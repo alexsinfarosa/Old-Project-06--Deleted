@@ -240,13 +240,13 @@ export default class BlueberryMaggot extends Component {
                 {!mobile
                   ? <h2>
                       <i>Blueberry Maggot</i> results for {" "}
-                      <span style={{ color: "#C44645" }}>
+                      <span style={{ color: "#4c4177" }}>
                         {station.name}, {state.postalCode}
                       </span>
                     </h2>
                   : <h3>
                       <i>Blueberry Maggot</i> results for {" "}
-                      <span style={{ color: "#C44645" }}>
+                      <span style={{ color: "#4c4177" }}>
                         {station.name}, {state.postalCode}
                       </span>
                     </h3>}
