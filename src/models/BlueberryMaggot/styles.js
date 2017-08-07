@@ -34,6 +34,13 @@ export const Info = styled(Box)`
   }
 `;
 
+export const A = styled.a`
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  padding: 10px;
+  color: #828282;
+`;
+
 export const CSVButton = styled(CSVLink)`
   color: #828282;
   margin-left: 5px;

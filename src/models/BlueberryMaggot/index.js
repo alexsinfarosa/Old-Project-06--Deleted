@@ -12,7 +12,7 @@ import { Flex, Box, Heading } from "rebass";
 import "styles/shared.styl";
 
 // styled components
-import { Value, Info, CSVButton } from "./styles";
+import { Value, Info, A } from "./styles";
 
 import Table from "antd/lib/table";
 import "antd/lib/table/style/css";
@@ -450,14 +450,14 @@ export default class BlueberryMaggot extends Component {
                 <Box>NA - not available</Box>
 
                 <Box>
-                  <Button
-                    type="secondary"
-                    icon="link"
-                    target="_blank"
-                    href={`http://forecast.weather.gov/MapClick.php?textField1=${station.lat}&textField2=${station.lon}`}
-                  >
-                    {" "}Forecast Details
-                  </Button>
+                  <Box>
+                    <A
+                      target="_blank"
+                      href={`http://forecast.weather.gov/MapClick.php?textField1=${station.lat}&textField2=${station.lon}`}
+                    >
+                      {" "}Forecast Details
+                    </A>
+                  </Box>
                 </Box>
 
                 {/* <Box>
