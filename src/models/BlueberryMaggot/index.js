@@ -68,21 +68,23 @@ export default class BlueberryMaggot extends Component {
       if (today) return today.cdd;
     };
 
-    let displayDDTable = true;
+    let displayDDTable = false;
 
     const stage = () => {
       const { endDate, startDateYear } = this.props.store.app;
       const yearPlusOne = parseInt(startDateYear, 10) + 1;
-      const sDate = `${startDateYear}-10-01`;
-      const eDate = `${yearPlusOne}-02-28`;
+      const sDate = `${startDateYear}-03-01`;
+      const eDate = `${startDateYear}-09-30`;
+      console.log(sDate, endDate, eDate);
+      console.log(isWithinRange(endDate, sDate, eDate));
       if (isWithinRange(endDate, sDate, eDate)) {
-        displayDDTable = false;
-        return [bmModel[0]];
-      } else {
+        displayDDTable = true;
         if (todayCDD() <= 613) return [bmModel[1]];
         if (todayCDD() > 613 && todayCDD() <= 863) return [bmModel[2]];
         if (todayCDD() > 863 && todayCDD() <= 963) return [bmModel[3]];
         if (todayCDD() > 964) return [bmModel[4]];
+      } else {
+        return [bmModel[0]];
       }
     };
 
