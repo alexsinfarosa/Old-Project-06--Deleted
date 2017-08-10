@@ -461,18 +461,6 @@ export default class BlueberryMaggot extends Component {
                     </A>
                   </Box>
                 </Box>
-
-                {/* <Box>
-                  <Button type="secondary" icon="download">
-                    <CSVButton
-                      data={CSVData.slice()}
-                      filename={"blueberryMaggotModel.csv"}
-                      target="_blank"
-                    >
-                      Download CSV
-                    </CSVButton>
-                  </Button>
-                </Box> */}
               </Flex>
 
               <Flex my={1}>
