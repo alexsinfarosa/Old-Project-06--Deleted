@@ -4,7 +4,7 @@ import takeRight from "lodash/takeRight";
 import format from "date-fns/format";
 import isAfter from "date-fns/is_after";
 import isWithinRange from "date-fns/is_within_range";
-
+import IconNewa from "components/newa-logo.svg";
 //  reflexbox
 import { Flex, Box, Heading } from "rebass";
 
@@ -16,10 +16,10 @@ import { Value, Info, A } from "./styles";
 
 import Table from "antd/lib/table";
 import "antd/lib/table/style/css";
-import Button from "antd/lib/button";
-import "antd/lib/button/style/css";
-import Spin from "antd/lib/spin";
-import "antd/lib/spin/style/css";
+// import Button from "antd/lib/button";
+// import "antd/lib/button/style/css";
+// import Spin from "antd/lib/spin";
+// import "antd/lib/spin/style/css";
 
 import Graph from "./Graph";
 
@@ -47,8 +47,6 @@ export default class BlueberryMaggot extends Component {
       isGraph,
       displayPlusButton,
       state,
-      isLoading,
-      CSVData,
       endDate,
       currentYear,
       startDateYear,
@@ -72,11 +70,9 @@ export default class BlueberryMaggot extends Component {
 
     const stage = () => {
       const { endDate, startDateYear } = this.props.store.app;
-      const yearPlusOne = parseInt(startDateYear, 10) + 1;
+      // const yearPlusOne = parseInt(startDateYear, 10) + 1;
       const sDate = `${startDateYear}-03-01`;
       const eDate = `${startDateYear}-09-30`;
-      console.log(sDate, endDate, eDate);
-      console.log(isWithinRange(endDate, sDate, eDate));
       if (isWithinRange(endDate, sDate, eDate)) {
         displayDDTable = true;
         if (todayCDD() <= 613) return [bmModel[1]];
@@ -273,17 +269,15 @@ export default class BlueberryMaggot extends Component {
     const pest = [
       {
         title: "Pest Status",
-        className: "table",
+        className: "table stage1",
         dataIndex: "status",
-        key: "status",
-        className: "stage"
+        key: "status"
       },
       {
         title: "Pest Management",
-        className: "table",
+        className: "table stage2",
         dataIndex: "management",
-        key: "management",
-        className: "stage"
+        key: "management"
       }
     ];
 
@@ -463,7 +457,7 @@ export default class BlueberryMaggot extends Component {
                 </Box>
               </Flex>
 
-              <Flex my={1}>
+              <Flex my={1} column>
                 <Box w={["100%", "90%", "90%"]}>
                   <i>
                     <em style={{ color: "black" }}>
@@ -477,6 +471,16 @@ export default class BlueberryMaggot extends Component {
                     stage, pest presence, and disease occurrence determined
                     through scouting or insect pheromone traps.
                   </i>
+                </Box>
+                <Box w={["100%", "90%", "90%"]} justify="center">
+                  <img
+                    src={IconNewa}
+                    alt="Newa Logo"
+                    style={{
+                      width: "50px",
+                      height: "50px"
+                    }}
+                  />
                 </Box>
               </Flex>
             </Flex>}
