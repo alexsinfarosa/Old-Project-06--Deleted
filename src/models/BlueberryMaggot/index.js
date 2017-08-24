@@ -477,8 +477,8 @@ export default class BlueberryMaggot extends Component {
                     src={IconNewa}
                     alt="Newa Logo"
                     style={{
-                      width: "50px",
-                      height: "50px"
+                      width: "60px",
+                      height: "60px"
                     }}
                   />
                 </Box>
