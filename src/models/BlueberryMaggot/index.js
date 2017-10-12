@@ -66,7 +66,7 @@ export default class BlueberryMaggot extends Component {
       if (today) return today.cdd;
     };
 
-    let displayDDTable = false;
+    let displayDDTable = true;
 
     const stage = () => {
       const { endDate, startDateYear } = this.props.store.app;
@@ -88,12 +88,11 @@ export default class BlueberryMaggot extends Component {
     const forecastText = date => {
       return (
         <Flex justify="center" align="center" column>
-          <Value>
-            {format(date, "MMM D")}
-          </Value>
+          <Value>{format(date, "MMM D")}</Value>
           {startDateYear === currentYear &&
-            isAfter(date, endDate) &&
-            <Info style={{ color: "#4D3919" }}>Forecast</Info>}
+            isAfter(date, endDate) && (
+              <Info style={{ color: "#595959" }}>Forecast</Info>
+            )}
         </Flex>
       );
     };
@@ -163,21 +162,19 @@ export default class BlueberryMaggot extends Component {
           <Flex style={{ fontSize: ".6rem" }} column>
             <Box col={12} lg={6} md={6} sm={12}>
               <Box col={12} lg={12} md={12} sm={12}>
-                {record.missingDays.length > 1
-                  ? <div>
-                      No data available for the following{" "}
-                      {record.cumulativeMissingDays} dates:{" "}
-                    </div>
-                  : <div>No data available for the following date:</div>}
+                {record.missingDays.length > 1 ? (
+                  <div>
+                    No data available for the following{" "}
+                    {record.cumulativeMissingDays} dates:{" "}
+                  </div>
+                ) : (
+                  <div>No data available for the following date:</div>
+                )}
               </Box>
             </Box>
             <br />
             <Box col={12} lg={6} md={6} sm={12}>
-              {record.missingDays.map((date, i) =>
-                <div key={i}>
-                  - {date}
-                </div>
-              )}
+              {record.missingDays.map((date, i) => <div key={i}>- {date}</div>)}
             </Box>
           </Flex>
         );
@@ -310,39 +307,41 @@ export default class BlueberryMaggot extends Component {
           </Heading>
 
           <Flex column>
-            {!mobile
-              ? <Box my={2} w={["100%", "90%", "90%"]}>
-                  <Table
-                    bordered
-                    size="middle"
-                    columns={pest}
-                    rowKey={record => record}
-                    loading={ACISData.length === 0}
-                    pagination={false}
-                    dataSource={areRequiredFieldsSet ? stage() : null}
-                  />
-                </Box>
-              : <Box my={2} w={["100%", "90%", "90%"]}>
-                  <Table
-                    bordered
-                    size="middle"
-                    columns={statusMobile}
-                    rowKey={record => record}
-                    loading={ACISData.length === 0}
-                    pagination={false}
-                    dataSource={areRequiredFieldsSet ? stage() : null}
-                  />
-                  <br />
-                  <Table
-                    bordered
-                    size="middle"
-                    columns={managementMobile}
-                    rowKey={record => record}
-                    loading={ACISData.length === 0}
-                    pagination={false}
-                    dataSource={areRequiredFieldsSet ? stage() : null}
-                  />
-                </Box>}
+            {!mobile ? (
+              <Box my={2} w={["100%", "90%", "90%"]}>
+                <Table
+                  bordered
+                  size="middle"
+                  columns={pest}
+                  rowKey={record => record}
+                  loading={ACISData.length === 0}
+                  pagination={false}
+                  dataSource={areRequiredFieldsSet ? stage() : null}
+                />
+              </Box>
+            ) : (
+              <Box my={2} w={["100%", "90%", "90%"]}>
+                <Table
+                  bordered
+                  size="middle"
+                  columns={statusMobile}
+                  rowKey={record => record}
+                  loading={ACISData.length === 0}
+                  pagination={false}
+                  dataSource={areRequiredFieldsSet ? stage() : null}
+                />
+                <br />
+                <Table
+                  bordered
+                  size="middle"
+                  columns={managementMobile}
+                  rowKey={record => record}
+                  loading={ACISData.length === 0}
+                  pagination={false}
+                  dataSource={areRequiredFieldsSet ? stage() : null}
+                />
+              </Box>
+            )}
           </Flex>
 
           <Flex>
@@ -357,7 +356,7 @@ export default class BlueberryMaggot extends Component {
             </Box>
           </Flex>
 
-          {displayDDTable &&
+          {displayDDTable && (
             <Flex column>
               <Flex>
                 <Box my={1} fontSize={1} w={["100%", "90", "90%"]}>
@@ -365,76 +364,72 @@ export default class BlueberryMaggot extends Component {
                     Accumulated degree days (base 50°F) from 01/01/{startDateYear}{" "}
                     through {format(endDate, "MM/DD/YYYY")}: {todayCDD()}
                   </span>
-                  <small>
-                    {" "}({` ${missingDays()}`} days missing )
-                  </small>
+                  <small> ({` ${missingDays()}`} days missing )</small>
                 </Box>
               </Flex>
 
               <Flex>
-                {!mobile
-                  ? <Box mt={1} w={["100%", "90%", "90%"]}>
-                      {displayPlusButton
-                        ? <Table
-                            bordered
-                            size="small"
-                            columns={columnsMobile}
-                            rowKey={record => record.dateTable}
-                            loading={ACISData.length === 0}
-                            pagination={false}
-                            dataSource={
-                              areRequiredFieldsSet
-                                ? takeRight(ACISData, 8)
-                                : null
-                            }
-                            expandedRowRender={record => description(record)}
-                          />
-                        : <Table
-                            rowClassName={(rec, idx) => this.rowColor(idx)}
-                            bordered
-                            size="middle"
-                            columns={columns}
-                            rowKey={record => record.dateTable}
-                            loading={ACISData.length === 0}
-                            pagination={false}
-                            dataSource={
-                              areRequiredFieldsSet
-                                ? takeRight(ACISData, 8)
-                                : null
-                            }
-                          />}
-                    </Box>
-                  : <Box mt={1} w={["100%", "90%", "90%"]}>
-                      {displayPlusButton
-                        ? <Table
-                            bordered
-                            size="small"
-                            columns={columnsMobile}
-                            rowKey={record => record.dateTable}
-                            loading={ACISData.length === 0}
-                            pagination={false}
-                            dataSource={
-                              areRequiredFieldsSet
-                                ? takeRight(ACISData, 8)
-                                : null
-                            }
-                            expandedRowRender={record => description(record)}
-                          />
-                        : <Table
-                            rowClassName={(rec, idx) => this.rowColor(idx)}
-                            bordered
-                            size="middle"
-                            columns={columnsMobile}
-                            rowKey={record => record.dateTable}
-                            loading={ACISData.length === 0}
-                            pagination={false}
-                            dataSource={
-                              areRequiredFieldsSet
-                                ? takeRight(ACISData, 8)
-                                : null
-                            }
-                          />}
-                    </Box>}
+                {!mobile ? (
+                  <Box mt={1} w={["100%", "90%", "90%"]}>
+                    {displayPlusButton ? (
+                      <Table
+                        bordered
+                        size="small"
+                        columns={columnsMobile}
+                        rowKey={record => record.dateTable}
+                        loading={ACISData.length === 0}
+                        pagination={false}
+                        dataSource={
+                          areRequiredFieldsSet ? takeRight(ACISData, 8) : null
+                        }
+                        expandedRowRender={record => description(record)}
+                      />
+                    ) : (
+                      <Table
+                        rowClassName={(rec, idx) => this.rowColor(idx)}
+                        bordered
+                        size="middle"
+                        columns={columns}
+                        rowKey={record => record.dateTable}
+                        loading={ACISData.length === 0}
+                        pagination={false}
+                        dataSource={
+                          areRequiredFieldsSet ? takeRight(ACISData, 8) : null
+                        }
+                      />
+                    )}
+                  </Box>
+                ) : (
+                  <Box mt={1} w={["100%", "90%", "90%"]}>
+                    {displayPlusButton ? (
+                      <Table
+                        bordered
+                        size="small"
+                        columns={columnsMobile}
+                        rowKey={record => record.dateTable}
+                        loading={ACISData.length === 0}
+                        pagination={false}
+                        dataSource={
+                          areRequiredFieldsSet ? takeRight(ACISData, 8) : null
+                        }
+                        expandedRowRender={record => description(record)}
+                      />
+                    ) : (
+                      <Table
+                        rowClassName={(rec, idx) => this.rowColor(idx)}
+                        bordered
+                        size="middle"
+                        columns={columnsMobile}
+                        rowKey={record => record.dateTable}
+                        loading={ACISData.length === 0}
+                        pagination={false}
+                        dataSource={
+                          areRequiredFieldsSet ? takeRight(ACISData, 8) : null
+                        }
+                      />
+                    )}
+                  </Box>
+                )}
               </Flex>
 
               <Flex
@@ -451,7 +446,8 @@ export default class BlueberryMaggot extends Component {
                       target="_blank"
                       href={`http://forecast.weather.gov/MapClick.php?textField1=${station.lat}&textField2=${station.lon}`}
                     >
-                      {" "}Forecast Details
+                      {" "}
+                      Forecast Details
                     </A>
                   </Box>
                 </Box>
@@ -483,12 +479,11 @@ export default class BlueberryMaggot extends Component {
                   />
                 </Box>
               </Flex>
-            </Flex>}
+            </Flex>
+          )}
         </Box>
 
-        <Box w={["100%", "90%", "90%"]}>
-          {isGraph && <Graph />}
-        </Box>
+        <Box w={["100%", "90%", "90%"]}>{isGraph && <Graph />}</Box>
       </Flex>
     );
   }
