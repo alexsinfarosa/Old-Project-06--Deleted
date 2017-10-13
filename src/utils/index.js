@@ -28,6 +28,7 @@ export const matchIconsToStations = (protocol, stations, state) => {
       station.network === "newa" ||
       station.network === "njwx" ||
       station.network === "miwx" ||
+      station.network === "oardc" ||
       ((station.network === "cu_log" || station.network === "culog") &&
         station.state !== "NY")
     ) {
@@ -58,7 +59,12 @@ export const matchIconsToStations = (protocol, stations, state) => {
 // Handling Temperature parameter and Michigan network id adjustment
 export const networkTemperatureAdjustment = network => {
   // Handling different temperature parameter for each network
-  if (network === "newa" || network === "icao" || network === "njwx") {
+  if (
+    network === "newa" ||
+    network === "icao" ||
+    network === "njwx" ||
+    network === "oardc"
+  ) {
     return "23";
   } else if (
     network === "miwx" ||
@@ -563,11 +569,11 @@ export const getData = async (
       results[i]["cdd"] = cdd;
     } else {
       cumulativeMissingDays += 1;
-      results[i]["Tmin"] = "No data";
-      results[i]["Tmax"] = "No data";
-      results[i]["Tavg"] = "No data";
-      results[i]["dd"] = "No data";
-      results[i]["cdd"] = "No data";
+      results[i]["Tmin"] = "NA";
+      results[i]["Tmax"] = "NA";
+      results[i]["Tavg"] = "NA";
+      results[i]["dd"] = "NA";
+      results[i]["cdd"] = "NA";
       results[i]["missingDay"] = 1;
       results[i]["cumulativeMissingDays"] = cumulativeMissingDays;
     }

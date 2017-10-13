@@ -3,6 +3,7 @@ import { inject, observer } from "mobx-react";
 import takeRight from "lodash/takeRight";
 import format from "date-fns/format";
 import isAfter from "date-fns/is_after";
+import isThisYear from "date-fns/is_this_year";
 import isWithinRange from "date-fns/is_within_range";
 import IconNewa from "components/newa-logo.svg";
 //  reflexbox
@@ -32,8 +33,13 @@ export default class BlueberryMaggot extends Component {
   }
 
   rowColor = idx => {
-    if (idx > 2) {
-      return "forecast";
+    const { endDate } = this.props.store.app;
+    if (isThisYear(endDate)) {
+      if (idx > 2) {
+        return "forecast";
+      } else {
+        return "past";
+      }
     } else {
       return "past";
     }
@@ -66,15 +72,12 @@ export default class BlueberryMaggot extends Component {
       if (today) return today.cdd;
     };
 
-    let displayDDTable = true;
-
     const stage = () => {
       const { endDate, startDateYear } = this.props.store.app;
       // const yearPlusOne = parseInt(startDateYear, 10) + 1;
       const sDate = `${startDateYear}-03-01`;
       const eDate = `${startDateYear}-09-30`;
       if (isWithinRange(endDate, sDate, eDate)) {
-        displayDDTable = true;
         if (todayCDD() <= 613) return [bmModel[1]];
         if (todayCDD() > 613 && todayCDD() <= 863) return [bmModel[2]];
         if (todayCDD() > 863 && todayCDD() <= 963) return [bmModel[3]];
@@ -300,7 +303,7 @@ export default class BlueberryMaggot extends Component {
       <Flex column align="center">
         <Box w={["100%", "90%", "90%"]}>
           <Heading fontSize={[3, 3, 4]}>
-            <i>Blueberry Maggot</i> results for {" "}
+            <i>Blueberry Maggot</i> results for{" "}
             <span style={{ color: "#4c4177" }}>
               {station.name}, {state.postalCode}
             </span>
@@ -344,143 +347,101 @@ export default class BlueberryMaggot extends Component {
             )}
           </Flex>
 
-          <Flex>
-            <Box my={2} fontSize={1} w={["100%", "90%", "90%"]}>
-              <i>
-                Blueberry maggot emergence is predicted to occur when
-                approximately <span style={{ color: "black" }}>913</span> degree
-                days, base 50 ˚F, have accumulated from January 1st. The
-                blueberry maggot degree day model uses the Baskerville Emin
-                formula.
-              </i>
-            </Box>
-          </Flex>
-
-          {displayDDTable && (
-            <Flex column>
-              <Flex>
-                <Box my={1} fontSize={1} w={["100%", "90", "90%"]}>
-                  <span style={{ color: "black" }}>
-                    Accumulated degree days (base 50°F) from 01/01/{startDateYear}{" "}
-                    through {format(endDate, "MM/DD/YYYY")}: {todayCDD()}
-                  </span>
-                  <small> ({` ${missingDays()}`} days missing )</small>
-                </Box>
-              </Flex>
-
-              <Flex>
-                {!mobile ? (
-                  <Box mt={1} w={["100%", "90%", "90%"]}>
-                    {displayPlusButton ? (
-                      <Table
-                        bordered
-                        size="small"
-                        columns={columnsMobile}
-                        rowKey={record => record.dateTable}
-                        loading={ACISData.length === 0}
-                        pagination={false}
-                        dataSource={
-                          areRequiredFieldsSet ? takeRight(ACISData, 8) : null
-                        }
-                        expandedRowRender={record => description(record)}
-                      />
-                    ) : (
-                      <Table
-                        rowClassName={(rec, idx) => this.rowColor(idx)}
-                        bordered
-                        size="middle"
-                        columns={columns}
-                        rowKey={record => record.dateTable}
-                        loading={ACISData.length === 0}
-                        pagination={false}
-                        dataSource={
-                          areRequiredFieldsSet ? takeRight(ACISData, 8) : null
-                        }
-                      />
-                    )}
-                  </Box>
-                ) : (
-                  <Box mt={1} w={["100%", "90%", "90%"]}>
-                    {displayPlusButton ? (
-                      <Table
-                        bordered
-                        size="small"
-                        columns={columnsMobile}
-                        rowKey={record => record.dateTable}
-                        loading={ACISData.length === 0}
-                        pagination={false}
-                        dataSource={
-                          areRequiredFieldsSet ? takeRight(ACISData, 8) : null
-                        }
-                        expandedRowRender={record => description(record)}
-                      />
-                    ) : (
-                      <Table
-                        rowClassName={(rec, idx) => this.rowColor(idx)}
-                        bordered
-                        size="middle"
-                        columns={columnsMobile}
-                        rowKey={record => record.dateTable}
-                        loading={ACISData.length === 0}
-                        pagination={false}
-                        dataSource={
-                          areRequiredFieldsSet ? takeRight(ACISData, 8) : null
-                        }
-                      />
-                    )}
-                  </Box>
+          <Flex column>
+            <Flex mt={2} mb={2}>
+              <Box my={1} fontSize={1} w={["100%", "90", "90%"]}>
+                <span style={{ color: "black" }}>
+                  Accumulated degree days (base 50°F) from 1/1/{startDateYear}{" "}
+                  through {format(endDate, "MM/D/YYYY")}: {todayCDD()}
+                </span>
+                {missingDays() !== 0 && (
+                  <div>
+                    <small>
+                      {` ${missingDays()}`} days missing:
+                      {ACISData.filter(d => d.missingDay === 1).map((d, i) => {
+                        if (i === missingDays() - 1)
+                          return <span key={i}> {d.dateText}. </span>;
+                        return <span key={i}> {d.dateText},</span>;
+                      })}
+                    </small>
+                  </div>
                 )}
-              </Flex>
-
-              <Flex
-                my={2}
-                justify="space-between"
-                align="baseline"
-                w={["100%", "90%", "90%"]}
-              >
-                <Box>NA - not available</Box>
-
-                <Box>
-                  <Box>
-                    <A
-                      target="_blank"
-                      href={`http://forecast.weather.gov/MapClick.php?textField1=${station.lat}&textField2=${station.lon}`}
-                    >
-                      {" "}
-                      Forecast Details
-                    </A>
-                  </Box>
-                </Box>
-              </Flex>
-
-              <Flex my={1} column>
-                <Box w={["100%", "90%", "90%"]}>
-                  <i>
-                    <em style={{ color: "black" }}>
-                      Disclaimer: These are theoretical predictions and
-                      forecasts.
-                    </em>
-                    The theoretical models predicting pest development or
-                    disease risk use the weather data collected (or forecasted)
-                    from the weather station location. These results should not
-                    be substituted for actual observations of plant growth
-                    stage, pest presence, and disease occurrence determined
-                    through scouting or insect pheromone traps.
-                  </i>
-                </Box>
-                <Box w={["100%", "90%", "90%"]} justify="center">
-                  <img
-                    src={IconNewa}
-                    alt="Newa Logo"
-                    style={{
-                      width: "60px",
-                      height: "60px"
-                    }}
-                  />
-                </Box>
-              </Flex>
+              </Box>
             </Flex>
-          )}
+
+            <Flex>
+              <Box mt={1} w={["100%", "90%", "90%"]}>
+                <Table
+                  rowClassName={(rec, idx) => this.rowColor(idx)}
+                  bordered
+                  size="middle"
+                  columns={columns}
+                  rowKey={record => record.dateTable}
+                  loading={ACISData.length === 0}
+                  pagination={false}
+                  dataSource={
+                    areRequiredFieldsSet ? takeRight(ACISData, 8) : null
+                  }
+                />
+              </Box>
+            </Flex>
+
+            <Flex
+              my={2}
+              justify="space-between"
+              align="baseline"
+              w={["100%", "90%", "90%"]}
+            >
+              <Box>NA - not available</Box>
+
+              <Box>
+                <Box>
+                  <A
+                    target="_blank"
+                    href={`http://forecast.weather.gov/MapClick.php?textField1=${station.lat}&textField2=${station.lon}`}
+                  >
+                    {" "}
+                    Forecast Details
+                  </A>
+                </Box>
+              </Box>
+            </Flex>
+
+            <Flex>
+              <Box my={2} fontSize={1} w={["100%", "90%", "90%"]}>
+                <i>
+                  Blueberry maggot emergence is predicted to occur when
+                  approximately <span style={{ color: "black" }}>913</span>{" "}
+                  degree days, base 50 ˚F, have accumulated from January 1st.
+                  The blueberry maggot degree day model uses the Baskerville
+                  Emin formula.
+                </i>
+              </Box>
+            </Flex>
+
+            <Flex my={1} column>
+              <Box w={["100%", "90%", "90%"]}>
+                <i>
+                  <em style={{ color: "black" }}>
+                    Disclaimer: These are theoretical predictions and forecasts.
+                  </em>
+                  The theoretical models predicting pest development or disease
+                  risk use the weather data collected (or forecasted) from the
+                  weather station location. These results should not be
+                  substituted for actual observations of plant growth stage,
+                  pest presence, and disease occurrence determined through
+                  scouting or insect pheromone traps.
+                </i>
+              </Box>
+              <Box w={["100%", "90%", "90%"]} justify="center">
+                <img
+                  src={IconNewa}
+                  alt="Newa Logo"
+                  style={{ width: "60px", height: "60px" }}
+                />
+              </Box>
+            </Flex>
+          </Flex>
         </Box>
 
         <Box w={["100%", "90%", "90%"]}>{isGraph && <Graph />}</Box>
