@@ -3,6 +3,7 @@ import { inject, observer } from "mobx-react";
 import takeRight from "lodash/takeRight";
 import format from "date-fns/format";
 import isAfter from "date-fns/is_after";
+import isBefore from "date-fns/is_before";
 import isThisYear from "date-fns/is_this_year";
 import isWithinRange from "date-fns/is_within_range";
 import IconNewa from "components/newa-logo.svg";
@@ -59,6 +60,8 @@ export default class BlueberryMaggot extends Component {
       bmModel
     } = this.props.store.app;
     const { mobile } = this.props;
+
+    const isNotSeason = isBefore(endDate, `${currentYear}-03-01`);
 
     const missingDays = () => {
       const idx = ACISData.findIndex(o => o.date === endDate);
@@ -348,64 +351,68 @@ export default class BlueberryMaggot extends Component {
           </Flex>
 
           <Flex column>
-            <Flex mt={2} mb={2}>
-              <Box my={1} fontSize={1} w={["100%", "90", "90%"]}>
-                <span style={{ color: "black" }}>
-                  Accumulated degree days (base 50°F) from 1/1/{startDateYear}{" "}
-                  through {format(endDate, "MM/D/YYYY")}: {todayCDD()}
-                </span>
-                {missingDays() !== 0 && (
-                  <div>
-                    <small>
-                      {` ${missingDays()}`} days missing:
-                      {ACISData.filter(d => d.missingDay === 1).map((d, i) => {
-                        if (i === missingDays() - 1)
-                          return <span key={i}> {d.dateText}. </span>;
-                        return <span key={i}> {d.dateText},</span>;
-                      })}
-                    </small>
-                  </div>
-                )}
-              </Box>
-            </Flex>
+            {!isNotSeason && (
+              <div>
+                <Flex mt={2} mb={2}>
+                  <Box my={1} fontSize={1} w={["100%", "90", "90%"]}>
+                    <span style={{ color: "black" }}>
+                      Accumulated degree days (base 50°F) from 1/1/{startDateYear}{" "}
+                      through {format(endDate, "MM/D/YYYY")}: {todayCDD()}
+                    </span>
+                    {missingDays() !== 0 && (
+                      <div>
+                        <small>
+                          {` ${missingDays()}`} days missing:
+                          {ACISData.filter(
+                            d => d.missingDay === 1
+                          ).map((d, i) => {
+                            if (i === missingDays() - 1)
+                              return <span key={i}> {d.dateText}. </span>;
+                            return <span key={i}> {d.dateText},</span>;
+                          })}
+                        </small>
+                      </div>
+                    )}
+                  </Box>
+                </Flex>
+                <Flex>
+                  <Box mt={1} w={["100%", "90%", "90%"]}>
+                    <Table
+                      rowClassName={(rec, idx) => this.rowColor(idx)}
+                      bordered
+                      size="middle"
+                      columns={columns}
+                      rowKey={record => record.dateTable}
+                      loading={ACISData.length === 0}
+                      pagination={false}
+                      dataSource={
+                        areRequiredFieldsSet ? takeRight(ACISData, 8) : null
+                      }
+                    />
+                  </Box>
+                </Flex>
+                <Flex
+                  my={2}
+                  justify="space-between"
+                  align="baseline"
+                  w={["100%", "90%", "90%"]}
+                >
+                  <Box>NA - not available</Box>
 
-            <Flex>
-              <Box mt={1} w={["100%", "90%", "90%"]}>
-                <Table
-                  rowClassName={(rec, idx) => this.rowColor(idx)}
-                  bordered
-                  size="middle"
-                  columns={columns}
-                  rowKey={record => record.dateTable}
-                  loading={ACISData.length === 0}
-                  pagination={false}
-                  dataSource={
-                    areRequiredFieldsSet ? takeRight(ACISData, 8) : null
-                  }
-                />
-              </Box>
-            </Flex>
-
-            <Flex
-              my={2}
-              justify="space-between"
-              align="baseline"
-              w={["100%", "90%", "90%"]}
-            >
-              <Box>NA - not available</Box>
-
-              <Box>
-                <Box>
-                  <A
-                    target="_blank"
-                    href={`http://forecast.weather.gov/MapClick.php?textField1=${station.lat}&textField2=${station.lon}`}
-                  >
-                    {" "}
-                    Forecast Details
-                  </A>
-                </Box>
-              </Box>
-            </Flex>
+                  <Box>
+                    <Box>
+                      <A
+                        target="_blank"
+                        href={`http://forecast.weather.gov/MapClick.php?textField1=${station.lat}&textField2=${station.lon}`}
+                      >
+                        {" "}
+                        Forecast Details
+                      </A>
+                    </Box>
+                  </Box>
+                </Flex>
+              </div>
+            )}
 
             <Flex>
               <Box my={2} fontSize={1} w={["100%", "90%", "90%"]}>
