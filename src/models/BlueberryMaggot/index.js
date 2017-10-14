@@ -62,6 +62,7 @@ export default class BlueberryMaggot extends Component {
     const { mobile } = this.props;
 
     const isNotSeason = isBefore(endDate, `${currentYear}-03-01`);
+    // console.log('ciccio')
 
     const missingDays = () => {
       const idx = ACISData.findIndex(o => o.date === endDate);
