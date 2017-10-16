@@ -6,7 +6,7 @@ import isAfter from "date-fns/is_after";
 import isBefore from "date-fns/is_before";
 import isThisYear from "date-fns/is_this_year";
 import isWithinRange from "date-fns/is_within_range";
-import IconNewa from "components/newa-logo.svg";
+import IconNewa from "components/newa_logo.svg";
 //  reflexbox
 import { Flex, Box, Heading } from "rebass";
 
@@ -62,7 +62,7 @@ export default class BlueberryMaggot extends Component {
     const { mobile } = this.props;
 
     const isNotSeason = isBefore(endDate, `${startDateYear}-03-01`);
-    console.log(isNotSeason, startDateYear);
+    // console.log(isNotSeason, startDateYear);
 
     const missingDays = () => {
       const idx = ACISData.findIndex(o => o.date === endDate);

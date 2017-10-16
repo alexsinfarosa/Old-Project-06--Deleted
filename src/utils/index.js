@@ -383,6 +383,7 @@ export const getData = async (
 
   // currentYear !== startDateYear means it is not this year, hence no forecast
   let results = [];
+  // PAST YEARS
   if (currentYear !== startDateYear) {
     for (const day of acis) {
       // creating a 'day' object with the returned params from ACIS
@@ -434,6 +435,7 @@ export const getData = async (
     // results.map(e => console.log(e.date, e.tp, e.tpSis, e.tpFinal));
   } else {
     // currentYear === startDateYear means it is forecast
+    // THIS YEAR
     for (const day of acis) {
       // creating a 'day' object with the returned params from ACIS
       results.push({
