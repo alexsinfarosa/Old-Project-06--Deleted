@@ -61,8 +61,8 @@ export default class BlueberryMaggot extends Component {
     } = this.props.store.app;
     const { mobile } = this.props;
 
-    const isNotSeason = isBefore(endDate, `${currentYear}-03-01`);
-    // console.log('ciccio')
+    const isNotSeason = isBefore(endDate, `${startDateYear}-03-01`);
+    console.log(isNotSeason, startDateYear);
 
     const missingDays = () => {
       const idx = ACISData.findIndex(o => o.date === endDate);
@@ -358,7 +358,7 @@ export default class BlueberryMaggot extends Component {
                   <Box my={1} fontSize={1} w={["100%", "90", "90%"]}>
                     <span style={{ color: "black" }}>
                       Accumulated degree days (base 50°F) from 1/1/{startDateYear}{" "}
-                      through {format(endDate, "MM/D/YYYY")}: {todayCDD()}
+                      through {format(endDate, "M/D/YYYY")}: {todayCDD()}
                     </span>
                     {missingDays() !== 0 && (
                       <div>
