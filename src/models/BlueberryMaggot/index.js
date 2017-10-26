@@ -48,7 +48,6 @@ export default class BlueberryMaggot extends Component {
       station,
       areRequiredFieldsSet,
       isGraph,
-      displayPlusButton,
       state,
       endDate,
       currentYear,
@@ -304,7 +303,7 @@ export default class BlueberryMaggot extends Component {
                     {missingDays() !== 0 && (
                       <div>
                         <small>
-                          {` (${missingDays()})`} days missing:
+                          {` (+${missingDays()})`} days missing:
                           {ACISData.filter(
                             d => d.missingDay === 1
                           ).map((d, i) => {

@@ -132,7 +132,7 @@ export default class AppStore {
   // Dates----------------------------------------------------------------------
   @observable currentYear = new Date().getFullYear().toString();
 
-  @observable endDate = format(new Date("2017-06-20"), "YYYY-MM-DD");
+  @observable endDate = format(new Date(), "YYYY-MM-DD");
 
   @action
   setEndDate = d => {
