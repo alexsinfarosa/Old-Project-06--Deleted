@@ -317,7 +317,8 @@ export default class BlueberryMaggot extends Component {
                     {missingDays() !== 0 && (
                       <div>
                         <small>
-                          {` (+${missingDays()})`} days missing:
+                          {` (+${missingDays()})`}{" "}
+                          {missingDays() === 1 ? "day" : "days"} missing:
                           {ACISData.filter(
                             d => d.missingDay === 1
                           ).map((d, i) => {
