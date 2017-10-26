@@ -18,10 +18,6 @@ import { Value, Info, A } from "./styles";
 
 import Table from "antd/lib/table";
 import "antd/lib/table/style/css";
-// import Button from "antd/lib/button";
-// import "antd/lib/button/style/css";
-// import Spin from "antd/lib/spin";
-// import "antd/lib/spin/style/css";
 
 import Graph from "./Graph";
 
@@ -61,10 +57,9 @@ export default class BlueberryMaggot extends Component {
     } = this.props.store.app;
     const { mobile } = this.props;
 
-    const isNotSeason =
-      isBefore(endDate, `${startDateYear}-03-01`) ||
-      isAfter(endDate, `${startDateYear}-09-30`);
-    console.log(isNotSeason, startDateYear);
+    const isSeason =
+      isAfter(endDate, `${startDateYear}-03-01`) &&
+      isBefore(endDate, `${startDateYear}-09-30`);
 
     const missingDays = () => {
       const idx = ACISData.findIndex(o => o.date === endDate);
@@ -93,7 +88,7 @@ export default class BlueberryMaggot extends Component {
       }
     };
 
-    // To display the 'forecast text' and style the cell
+    // To display the 'Forecast' text and style the cell
     const forecastText = date => {
       return (
         <Flex justify="center" align="center" column>
@@ -109,39 +104,16 @@ export default class BlueberryMaggot extends Component {
     const emergence = (text, record, i) => {
       let ddColor = "";
       if (text < 613) ddColor = "#00A854";
-      if (text >= 613 && text <= 864) ddColor = "#FFBF00";
-      if (text > 864) ddColor = "#F04134";
+      if (text >= 613 && text <= 863) ddColor = "#FFBF00";
+      if (text > 863) ddColor = "#F04134";
+
       if (record.missingDay === 1)
         return (
           <Flex justify="center" align="center">
             <Value>NA</Value>
           </Flex>
         );
-      if (text > 913) {
-        return (
-          <Flex
-            justify="center"
-            align="center"
-            column
-            style={{
-              background: `${ddColor}`,
-              borderRadius: "5px",
-              color: "white"
-            }}
-          >
-            <Value>
-              {record.cdd}
-              <span style={{ color: "white", marginLeft: "1px" }}>
-                {record.cumulativeMissingDays > 0
-                  ? `(+${record.cumulativeMissingDays})`
-                  : null}
-              </span>
-            </Value>
 
-            <Box style={{ fontSize: "12px" }}>emergence &#8773; 913</Box>
-          </Flex>
-        );
-      }
       return (
         <Flex
           justify="center"
@@ -153,42 +125,9 @@ export default class BlueberryMaggot extends Component {
             color: "white"
           }}
         >
-          <Value>
-            {record.cdd}
-            <span style={{ color: "white", marginLeft: "1px" }}>
-              {record.cumulativeMissingDays > 0
-                ? `(+${record.cumulativeMissingDays})`
-                : null}
-            </span>
-          </Value>
+          <Value>{record.cdd}</Value>
         </Flex>
       );
-    };
-
-    const description = record => {
-      if (record.missingDays.length > 0) {
-        return (
-          <Flex style={{ fontSize: ".6rem" }} column>
-            <Box col={12} lg={6} md={6} sm={12}>
-              <Box col={12} lg={12} md={12} sm={12}>
-                {record.missingDays.length > 1 ? (
-                  <div>
-                    No data available for the following{" "}
-                    {record.cumulativeMissingDays} dates:{" "}
-                  </div>
-                ) : (
-                  <div>No data available for the following date:</div>
-                )}
-              </Box>
-            </Box>
-            <br />
-            <Box col={12} lg={6} md={6} sm={12}>
-              {record.missingDays.map((date, i) => <div key={i}>- {date}</div>)}
-            </Box>
-          </Flex>
-        );
-      }
-      return null;
     };
 
     const columns = [
@@ -354,10 +293,10 @@ export default class BlueberryMaggot extends Component {
           </Flex>
 
           <Flex column>
-            {!isNotSeason && (
+            {isSeason && (
               <div>
                 <Flex mt={2} mb={2}>
-                  <Box my={1} fontSize={1} w={["100%", "90", "90%"]}>
+                  <Box my={1} fontSize={1} w={[1]}>
                     <span style={{ color: "black" }}>
                       Accumulated degree days (base 50°F) from 1/1/{startDateYear}{" "}
                       through {format(endDate, "M/D/YYYY")}: {todayCDD()}
@@ -365,7 +304,7 @@ export default class BlueberryMaggot extends Component {
                     {missingDays() !== 0 && (
                       <div>
                         <small>
-                          {` ${missingDays()}`} days missing:
+                          {` (${missingDays()})`} days missing:
                           {ACISData.filter(
                             d => d.missingDay === 1
                           ).map((d, i) => {
@@ -384,7 +323,7 @@ export default class BlueberryMaggot extends Component {
                       rowClassName={(rec, idx) => this.rowColor(idx)}
                       bordered
                       size="middle"
-                      columns={columns}
+                      columns={mobile ? columnsMobile : columns}
                       rowKey={record => record.dateTable}
                       loading={ACISData.length === 0}
                       pagination={false}
@@ -412,9 +351,9 @@ export default class BlueberryMaggot extends Component {
               </div>
             )}
 
-            {!isNotSeason && (
+            {isSeason && (
               <Flex>
-                <Box my={2} fontSize={1} w={["100%", "100%", "100%"]}>
+                <Box my={2} fontSize={[0, 1, 1]} w={[1]}>
                   <i>
                     Blueberry maggot emergence is predicted to occur when
                     approximately <span style={{ color: "black" }}>
@@ -429,7 +368,7 @@ export default class BlueberryMaggot extends Component {
             )}
 
             <Flex my={1} column>
-              <Box w={["100%", "100%", "100%"]}>
+              <Box w={[1]} fontSize={[0, 1, 1]}>
                 <i>
                   <em style={{ color: "black" }}>
                     Disclaimer: These are theoretical predictions and forecasts.
@@ -442,7 +381,7 @@ export default class BlueberryMaggot extends Component {
                   scouting or insect pheromone traps.
                 </i>
               </Box>
-              <Box w={[1]}>
+              <Box w={[1]} style={{ margin: "0 auto" }}>
                 <img
                   src={IconNewa}
                   alt="Newa Logo"
