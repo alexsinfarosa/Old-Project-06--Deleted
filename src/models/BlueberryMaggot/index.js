@@ -30,7 +30,6 @@ export default class BlueberryMaggot extends Component {
   }
 
   rowColor = idx => {
-    console.log(idx);
     const { endDate } = this.props.store.app;
     if (isThisYear(endDate)) {
       if (idx > 2) {
