@@ -21,7 +21,7 @@ export const TextIcon = styled.div`
 
 export const IconStyled = styled(Icon)`
   color: white;
-  opacity: .8;
+  opacity: 0.8;
   font-size: 1em;
 
   &:hover {
