@@ -61,8 +61,10 @@ export default class BlueberryMaggot extends Component {
     } = this.props.store.app;
     const { mobile } = this.props;
 
-    const isNotSeason = isBefore(endDate, `${startDateYear}-03-01`);
-    // console.log(isNotSeason, startDateYear);
+    const isNotSeason =
+      isBefore(endDate, `${startDateYear}-03-01`) ||
+      isAfter(endDate, `${startDateYear}-09-30`);
+    console.log(isNotSeason, startDateYear);
 
     const missingDays = () => {
       const idx = ACISData.findIndex(o => o.date === endDate);
@@ -304,8 +306,8 @@ export default class BlueberryMaggot extends Component {
     ];
 
     return (
-      <Flex column align="center">
-        <Box w={["100%", "90%", "90%"]}>
+      <Flex column w={"80%"} style={{ margin: "auto" }}>
+        <Box w={[1]}>
           <Heading fontSize={[3, 3, 4]}>
             <i>Blueberry Maggot</i> results for{" "}
             <span style={{ color: "#4c4177" }}>
@@ -315,7 +317,7 @@ export default class BlueberryMaggot extends Component {
 
           <Flex column>
             {!mobile ? (
-              <Box my={2} w={["100%", "90%", "90%"]}>
+              <Box my={2} w={[1]}>
                 <Table
                   bordered
                   size="middle"
@@ -327,7 +329,7 @@ export default class BlueberryMaggot extends Component {
                 />
               </Box>
             ) : (
-              <Box my={2} w={["100%", "90%", "90%"]}>
+              <Box my={2} w={[1]}>
                 <Table
                   bordered
                   size="middle"
@@ -377,7 +379,7 @@ export default class BlueberryMaggot extends Component {
                   </Box>
                 </Flex>
                 <Flex>
-                  <Box mt={1} w={["100%", "90%", "90%"]}>
+                  <Box mt={1} w={[1]}>
                     <Table
                       rowClassName={(rec, idx) => this.rowColor(idx)}
                       bordered
@@ -392,12 +394,7 @@ export default class BlueberryMaggot extends Component {
                     />
                   </Box>
                 </Flex>
-                <Flex
-                  my={2}
-                  justify="space-between"
-                  align="baseline"
-                  w={["100%", "90%", "90%"]}
-                >
+                <Flex my={2} justify="space-between" align="baseline" w={[1]}>
                   <Box>NA - not available</Box>
 
                   <Box>
@@ -415,20 +412,24 @@ export default class BlueberryMaggot extends Component {
               </div>
             )}
 
-            <Flex>
-              <Box my={2} fontSize={1} w={["100%", "90%", "90%"]}>
-                <i>
-                  Blueberry maggot emergence is predicted to occur when
-                  approximately <span style={{ color: "black" }}>913</span>{" "}
-                  degree days, base 50 ˚F, have accumulated from January 1st.
-                  The blueberry maggot degree day model uses the Baskerville
-                  Emin formula.
-                </i>
-              </Box>
-            </Flex>
+            {!isNotSeason && (
+              <Flex>
+                <Box my={2} fontSize={1} w={["100%", "100%", "100%"]}>
+                  <i>
+                    Blueberry maggot emergence is predicted to occur when
+                    approximately <span style={{ color: "black" }}>
+                      913
+                    </span>{" "}
+                    degree days, base 50 ˚F, have accumulated from January 1st.
+                    The blueberry maggot degree day model uses the Baskerville
+                    Emin formula.
+                  </i>
+                </Box>
+              </Flex>
+            )}
 
             <Flex my={1} column>
-              <Box w={["100%", "90%", "90%"]}>
+              <Box w={["100%", "100%", "100%"]}>
                 <i>
                   <em style={{ color: "black" }}>
                     Disclaimer: These are theoretical predictions and forecasts.
@@ -441,18 +442,22 @@ export default class BlueberryMaggot extends Component {
                   scouting or insect pheromone traps.
                 </i>
               </Box>
-              <Box w={["100%", "90%", "90%"]} justify="center">
+              <Box w={[1]}>
                 <img
                   src={IconNewa}
                   alt="Newa Logo"
-                  style={{ width: "60px", height: "60px" }}
+                  style={{
+                    width: "65px",
+                    height: "65px",
+                    margin: "0 auto"
+                  }}
                 />
               </Box>
             </Flex>
           </Flex>
         </Box>
 
-        <Box w={["100%", "90%", "90%"]}>{isGraph && <Graph />}</Box>
+        <Box w={[1]}>{isGraph && <Graph />}</Box>
       </Flex>
     );
   }
