@@ -527,7 +527,7 @@ export const getData = async (
     results[i]["dateGraph"] = format(day.date, "MMM D");
 
     // date to display as text
-    results[i]["dateText"] = format(day.date, "MMMM Do");
+    results[i]["dateText"] = format(day.date, "MMMM D");
 
     // date to display in tables
     let dateTable = format(day.date, "MMM D");
