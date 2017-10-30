@@ -30,13 +30,10 @@ export default class BlueberryMaggot extends Component {
   }
 
   rowColor = rec => {
-    const { endDate } = this.props.store.app;
-    console.log(rec.date, endDate, isFuture(rec.date));
     if (isFuture(rec.date)) {
       return "forecast";
-    } else {
-      return "past";
     }
+    return "past";
   };
 
   render() {
@@ -56,6 +53,8 @@ export default class BlueberryMaggot extends Component {
     const isSeason =
       isAfter(endDate, `${startDateYear}-03-01`) &&
       isBefore(endDate, `${startDateYear}-09-30`);
+
+    // const isSeason = true;
 
     const missingDays = () => {
       const idx = ACISData.findIndex(o => o.date === endDate);
@@ -256,12 +255,14 @@ export default class BlueberryMaggot extends Component {
     return (
       <Flex column>
         <Box my={1} w={[1]}>
-          <Heading fontSize={[2, 3, 3]}>
-            <i>Blueberry Maggot</i> results for{" "}
-            <span style={{ color: "#4c4177" }}>
-              {station.name}, {state.postalCode}
-            </span>
-          </Heading>
+          {isSeason && (
+            <Heading fontSize={[2, 3, 3]}>
+              <i>Blueberry Maggot</i> results for{" "}
+              <span style={{ color: "#4c4177" }}>
+                {station.name}, {state.postalCode}
+              </span>
+            </Heading>
+          )}
 
           <Flex column>
             {!mobile ? (
