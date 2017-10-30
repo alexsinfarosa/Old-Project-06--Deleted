@@ -4,10 +4,8 @@ import takeRight from "lodash/takeRight";
 import format from "date-fns/format";
 import isAfter from "date-fns/is_after";
 import isBefore from "date-fns/is_before";
-import isThisYear from "date-fns/is_this_year";
 import isWithinRange from "date-fns/is_within_range";
 import IconNewa from "components/newa_logo.svg";
-import isToday from "date-fns/is_today";
 import isFuture from "date-fns/is_future";
 //  reflexbox
 import { Flex, Box, Heading } from "rebass";
@@ -30,19 +28,6 @@ export default class BlueberryMaggot extends Component {
     super(props);
     this.props.store.app.setCSVData();
   }
-
-  // rowColor = idx => {
-  //   const { endDate } = this.props.store.app;
-  //   if (isThisYear(endDate)) {
-  //     if (idx > 2) {
-  //       return "forecast";
-  //     } else {
-  //       return "past";
-  //     }
-  //   } else {
-  //     return "past";
-  //   }
-  // };
 
   rowColor = rec => {
     const { endDate } = this.props.store.app;
@@ -68,11 +53,9 @@ export default class BlueberryMaggot extends Component {
     } = this.props.store.app;
     const { mobile } = this.props;
 
-    // const isSeason =
-    //   isAfter(endDate, `${startDateYear}-03-01`) &&
-    //   isBefore(endDate, `${startDateYear}-09-30`);
-
-    const isSeason = true;
+    const isSeason =
+      isAfter(endDate, `${startDateYear}-03-01`) &&
+      isBefore(endDate, `${startDateYear}-09-30`);
 
     const missingDays = () => {
       const idx = ACISData.findIndex(o => o.date === endDate);
