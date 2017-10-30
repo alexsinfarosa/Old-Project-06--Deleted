@@ -257,9 +257,9 @@ export default class BlueberryMaggot extends Component {
     ];
 
     return (
-      <Flex column w={"80%"} style={{ margin: "auto" }}>
-        <Box w={[1]}>
-          <Heading fontSize={[3, 3, 4]}>
+      <Flex column>
+        <Box my={1} w={[1]}>
+          <Heading fontSize={[2, 3, 3]}>
             <i>Blueberry Maggot</i> results for{" "}
             <span style={{ color: "#4c4177" }}>
               {station.name}, {state.postalCode}
@@ -307,8 +307,8 @@ export default class BlueberryMaggot extends Component {
           <Flex column>
             {isSeason && (
               <div>
-                <Flex mt={2} mb={2}>
-                  <Box my={1} fontSize={1} w={[1]}>
+                <Flex my={2}>
+                  <Box fontSize={[1, 2, 2]} w={[1]}>
                     <span style={{ color: "black" }}>
                       Accumulated degree days (base 50°F) from 1/1/{startDateYear}{" "}
                       through {format(endDate, "M/D/YYYY")}: {todayCDD()}
@@ -347,9 +347,9 @@ export default class BlueberryMaggot extends Component {
                   </Box>
                 </Flex>
                 <Flex my={2} justify="space-between" align="baseline" w={[1]}>
-                  <Box>NA - not available</Box>
+                  <Box my={1}>NA - not available</Box>
 
-                  <Box>
+                  <Box my={1}>
                     <Box>
                       <A
                         target="_blank"
@@ -380,7 +380,7 @@ export default class BlueberryMaggot extends Component {
               </Flex>
             )}
 
-            <Flex my={1} column>
+            <Flex column align="center">
               <Box w={[1]} fontSize={[0, 1, 1]}>
                 <i>
                   <em style={{ color: "black" }}>
@@ -394,14 +394,15 @@ export default class BlueberryMaggot extends Component {
                   scouting or insect pheromone traps.
                 </i>
               </Box>
-              <Box w={[1]} style={{ margin: "0 auto" }}>
+              <Box w={[1]}>
                 <img
                   src={IconNewa}
                   alt="Newa Logo"
                   style={{
-                    width: "65px",
-                    height: "65px",
-                    margin: "0 auto"
+                    display: "block",
+                    maxWidth: "75px",
+                    height: "auto",
+                    margin: "3em auto"
                   }}
                 />
               </Box>

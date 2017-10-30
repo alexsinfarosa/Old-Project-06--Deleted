@@ -54,7 +54,7 @@ export default class TheMap extends Component {
     const { stationsWithMatchedIcons, state, protocol } = this.props.store.app;
     // const {mobile} = this.props;
 
-    const MarkerList = stationsWithMatchedIcons.map(station =>
+    const MarkerList = stationsWithMatchedIcons.map(station => (
       <Marker
         key={`${station.id} ${station.network}`}
         // network={station.network}
@@ -64,7 +64,7 @@ export default class TheMap extends Component {
         title={station.name}
         onClick={this.onClickSetStation}
       />
-    );
+    ));
 
     // const MyPopupMarker = ({ name, lat,  lon }) => (
     //   <Marker position={[lat, lon]}>
@@ -85,8 +85,16 @@ export default class TheMap extends Component {
     // <Rectangle bounds={toJS(state.bbox)} />
 
     return (
-      <Flex justify="center">
-        <Box mb={2} w={["100%", "90", "90%"]}>
+      <Flex my={2} w={1} column>
+        <Box my={1} fontSize={[0, 0, 1]}>
+          {state.name === "All States" && (
+            <h3>
+              Click one of the icons on the map or select a state and a station
+              from the left panel.
+            </h3>
+          )}
+        </Box>
+        <Box>
           <MapContainer
             zoomControl={true}
             scrollWheelZoom={false}
@@ -95,9 +103,7 @@ export default class TheMap extends Component {
               Object.keys(state).length === 0
                 ? [42.9543, -75.5262]
                 : [state.lat, state.lon]
-            }
-            // bounds={toJS(state.bbox)}
-            // boundsOptions={{ padding: [5, 5]}}
+            } // boundsOptions={{ padding: [5, 5]}} // bounds={toJS(state.bbox)}
             zoom={Object.keys(state).length === 0 ? 6 : state.zoom}
           >
             <TileLayer

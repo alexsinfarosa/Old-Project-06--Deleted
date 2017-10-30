@@ -8,6 +8,8 @@ import BlueberryMaggot from "models/BlueberryMaggot";
 // styled-components
 import { Header, TextIcon, IconStyled, MainContent } from "./styles";
 
+import { Flex } from "rebass";
+
 @inject("store")
 @observer
 class RightContent extends Component {
@@ -17,14 +19,11 @@ class RightContent extends Component {
       areRequiredFieldsSet,
       isMap,
       toggleSidebar,
-      subject,
-      state
+      subject
     } = this.props.store.app;
 
     return (
-      <div
-        style={{ display: "flex", flexDirection: "column", height: "100vh" }}
-      >
+      <Flex column>
         {this.props.mobile ? (
           <Header>
             <TextIcon>
@@ -50,18 +49,13 @@ class RightContent extends Component {
         )}
 
         <MainContent>
-          {state.name === "All States" && (
-            <h3>
-              Click one of the icons on the map or select a state and a station
-              from the left panel.
-            </h3>
-          )}
-          <br />
-          {isMap && <Map {...this.props} />}
-          {areRequiredFieldsSet &&
-            ACISData.length !== 0 && <BlueberryMaggot {...this.props} />}
+          <Flex column w={["100%", "95%", "90%"]} style={{ margin: "0 auto" }}>
+            {isMap && <Map {...this.props} />}
+            {areRequiredFieldsSet &&
+              ACISData.length !== 0 && <BlueberryMaggot {...this.props} />}
+          </Flex>
         </MainContent>
-      </div>
+      </Flex>
     );
   }
 }
