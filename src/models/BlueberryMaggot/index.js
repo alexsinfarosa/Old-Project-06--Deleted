@@ -7,6 +7,8 @@ import isBefore from "date-fns/is_before";
 import isThisYear from "date-fns/is_this_year";
 import isWithinRange from "date-fns/is_within_range";
 import IconNewa from "components/newa_logo.svg";
+import isToday from "date-fns/is_today";
+import isFuture from "date-fns/is_future";
 //  reflexbox
 import { Flex, Box, Heading } from "rebass";
 
@@ -29,14 +31,24 @@ export default class BlueberryMaggot extends Component {
     this.props.store.app.setCSVData();
   }
 
-  rowColor = idx => {
+  // rowColor = idx => {
+  //   const { endDate } = this.props.store.app;
+  //   if (isThisYear(endDate)) {
+  //     if (idx > 2) {
+  //       return "forecast";
+  //     } else {
+  //       return "past";
+  //     }
+  //   } else {
+  //     return "past";
+  //   }
+  // };
+
+  rowColor = rec => {
     const { endDate } = this.props.store.app;
-    if (isThisYear(endDate)) {
-      if (idx > 2) {
-        return "forecast";
-      } else {
-        return "past";
-      }
+    console.log(rec.date, endDate, isFuture(rec.date));
+    if (isFuture(rec.date)) {
+      return "forecast";
     } else {
       return "past";
     }
@@ -56,9 +68,11 @@ export default class BlueberryMaggot extends Component {
     } = this.props.store.app;
     const { mobile } = this.props;
 
-    const isSeason =
-      isAfter(endDate, `${startDateYear}-03-01`) &&
-      isBefore(endDate, `${startDateYear}-09-30`);
+    // const isSeason =
+    //   isAfter(endDate, `${startDateYear}-03-01`) &&
+    //   isBefore(endDate, `${startDateYear}-09-30`);
+
+    const isSeason = true;
 
     const missingDays = () => {
       const idx = ACISData.findIndex(o => o.date === endDate);
@@ -93,7 +107,7 @@ export default class BlueberryMaggot extends Component {
         <Flex justify="center" align="center" column>
           <Value>{format(date, "MMM D")}</Value>
           {startDateYear === currentYear &&
-            isAfter(date, endDate) && (
+            isFuture(date) && (
               <Info style={{ color: "#595959" }}>Forecast</Info>
             )}
         </Flex>
@@ -333,7 +347,7 @@ export default class BlueberryMaggot extends Component {
                 <Flex>
                   <Box mt={1} w={[1]}>
                     <Table
-                      rowClassName={(rec, idx) => this.rowColor(idx)}
+                      rowClassName={rec => this.rowColor(rec)}
                       bordered
                       size="middle"
                       columns={mobile ? columnsMobile : columns}
