@@ -52,7 +52,7 @@ export default class BlueberryMaggot extends Component {
       startDateYear,
       bmModel
     } = this.props.store.app;
-    console.log(ACISData.slice(-8));
+
     const { mobile } = this.props;
 
     const isSeason =
