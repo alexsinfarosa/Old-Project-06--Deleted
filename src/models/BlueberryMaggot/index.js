@@ -7,6 +7,7 @@ import isBefore from "date-fns/is_before";
 import isWithinRange from "date-fns/is_within_range";
 import IconNewa from "components/newa_logo.svg";
 import isFuture from "date-fns/is_future";
+import isThisYear from "date-fns/is_this_year";
 //  reflexbox
 import { Flex, Box, Heading } from "rebass";
 
@@ -30,10 +31,13 @@ export default class BlueberryMaggot extends Component {
   }
 
   rowColor = rec => {
-    if (isFuture(rec.date)) {
-      return "forecast";
+    if (isThisYear(rec.date)) {
+      if (isFuture(rec.date)) {
+        return "forecast";
+      }
+      return "past";
     }
-    return "past";
+    return "";
   };
 
   render() {
@@ -48,6 +52,7 @@ export default class BlueberryMaggot extends Component {
       startDateYear,
       bmModel
     } = this.props.store.app;
+    console.log(ACISData.slice(-8));
     const { mobile } = this.props;
 
     const isSeason =
@@ -295,7 +300,9 @@ export default class BlueberryMaggot extends Component {
                 <Flex my={2}>
                   <Box fontSize={[1, 2, 2]} w={[1]}>
                     <span style={{ color: "black" }}>
-                      Accumulated degree days (base 50°F) from 1/1/{startDateYear}{" "}
+                      Accumulated degree days (base 50°F) from 1/1/{
+                        startDateYear
+                      }{" "}
                       through {format(endDate, "M/D/YYYY")}: {todayCDD()}
                     </span>
                     {missingDays() !== 0 && (
@@ -303,13 +310,13 @@ export default class BlueberryMaggot extends Component {
                         <small>
                           {` (+${missingDays()})`}{" "}
                           {missingDays() === 1 ? "day" : "days"} missing:
-                          {ACISData.filter(
-                            d => d.missingDay === 1
-                          ).map((d, i) => {
-                            if (i === missingDays() - 1)
-                              return <span key={i}> {d.dateText}. </span>;
-                            return <span key={i}> {d.dateText},</span>;
-                          })}
+                          {ACISData.filter(d => d.missingDay === 1).map(
+                            (d, i) => {
+                              if (i === missingDays() - 1)
+                                return <span key={i}> {d.dateText}. </span>;
+                              return <span key={i}> {d.dateText},</span>;
+                            }
+                          )}
                         </small>
                       </div>
                     )}
@@ -338,7 +345,9 @@ export default class BlueberryMaggot extends Component {
                     <Box>
                       <A
                         target="_blank"
-                        href={`http://forecast.weather.gov/MapClick.php?textField1=${station.lat}&textField2=${station.lon}`}
+                        href={`http://forecast.weather.gov/MapClick.php?textField1=${
+                          station.lat
+                        }&textField2=${station.lon}`}
                       >
                         {" "}
                         Forecast Details
@@ -354,9 +363,7 @@ export default class BlueberryMaggot extends Component {
                 <Box my={2} fontSize={[0, 1, 1]} w={[1]}>
                   <i>
                     Blueberry maggot emergence is predicted to occur when
-                    approximately <span style={{ color: "black" }}>
-                      913
-                    </span>{" "}
+                    approximately <span style={{ color: "black" }}>913</span>{" "}
                     degree days, base 50 ˚F, have accumulated from January 1st.
                     The blueberry maggot degree day model uses the Baskerville
                     Emin formula.
