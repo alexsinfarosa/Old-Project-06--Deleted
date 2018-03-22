@@ -29,6 +29,7 @@ export const matchIconsToStations = (protocol, stations, state) => {
       station.network === "njwx" ||
       station.network === "miwx" ||
       station.network === "oardc" ||
+      station.network === "nysm" ||
       ((station.network === "cu_log" || station.network === "culog") &&
         station.state !== "NY")
     ) {
@@ -63,7 +64,8 @@ export const networkTemperatureAdjustment = network => {
     network === "newa" ||
     network === "icao" ||
     network === "njwx" ||
-    network === "oardc"
+    network === "oardc" ||
+    network === "nysm"
   ) {
     return "23";
   } else if (

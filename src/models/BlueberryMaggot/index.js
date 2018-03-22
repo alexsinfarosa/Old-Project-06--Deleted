@@ -125,19 +125,6 @@ export default class BlueberryMaggot extends Component {
       );
     };
 
-    // const emergence2 = (text, record, i) => {
-    //   let ddColor = "";
-    //   if (text < 613) ddColor = "low";
-    //   if (text >= 613 && text <= 863) ddColor = "moderate";
-    //   if (text > 863) ddColor = "high";
-    //   return {
-    //     props: {
-    //       className: `table ${ddColor}`
-    //     },
-    //     children: text
-    //   };
-    // };
-
     const columns = [
       {
         title: "Date",

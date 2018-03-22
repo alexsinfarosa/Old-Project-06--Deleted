@@ -23,7 +23,7 @@ class Subject extends Component {
     // console.log(date, dateString);
     this.props.store.app.setEndDate(dateString);
     if (areRequiredFieldsSet && mobile) {
-      console.log("inside DatePicker");
+      // console.log("inside DatePicker");
       this.props.store.app.setIsSidebarOpen(false);
       return;
     }
@@ -39,7 +39,9 @@ class Subject extends Component {
     return (
       <div style={{ marginBottom: "2rem" }}>
         <label>Date:</label>
-        <div><small>Start Date: January 1st</small></div>
+        <div>
+          <small>Start Date: January 1st</small>
+        </div>
 
         <DatePicker
           style={{ width: 200 }}
