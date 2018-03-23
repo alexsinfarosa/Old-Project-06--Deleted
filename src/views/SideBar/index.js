@@ -9,7 +9,7 @@ import Button from "antd/lib/button";
 import "antd/lib/button/style/css";
 
 // components
-import Subject from "components/Subject";
+// import Subject from "components/Subject";
 import State from "components/State";
 import Station from "components/Station";
 import DatePicker from "components/DatePicker";
@@ -54,7 +54,7 @@ class SideBar extends Component {
         </Box>
         <hr />
         <br />
-        <Subject size={this.props.size} />
+        {/*<Subject size={this.props.size} />*/}
         <State size={this.props.size} />
         <Station size={this.props.size} />
         <DatePicker size={this.props.size} />
@@ -65,14 +65,15 @@ class SideBar extends Component {
           </Button>
         </Box>
 
-        {subject.graph &&
+        {subject.graph && (
           <Box>
             <Button size="large" icon="bar-chart" onClick={this.toggleGraph}>
               {isGraph ? "Hide Graph" : "Display Graph"}
             </Button>
-          </Box>}
+          </Box>
+        )}
 
-        {true &&
+        {true && (
           <Flex my={4} column>
             <h4>Degree Days Risk Levels</h4>
             <Flex my={1}>
@@ -87,7 +88,8 @@ class SideBar extends Component {
               <RiskLevel color="#F04134">High</RiskLevel>
               <Box ml={1}>Above 863</Box>
             </Flex>
-          </Flex>}
+          </Flex>
+        )}
 
         <Acknowledgements />
         <MoreInfo />

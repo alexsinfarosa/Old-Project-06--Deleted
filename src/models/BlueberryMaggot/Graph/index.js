@@ -49,7 +49,7 @@ export default class Graph extends Component {
                 height={48}
                 payload={[
                   {
-                    value: "Cumulative degree day",
+                    value: "Cumulative degree day (cdd)",
                     type: "line",
                     color: "#4C4177"
                   }

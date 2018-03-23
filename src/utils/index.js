@@ -557,9 +557,9 @@ export const getData = async (
       Tavg = (Tmin + Tmax) / 2;
 
       cumulativeMissingDays += 0;
-      results[i]["Tmin"] = Tmin.toFixed(1);
-      results[i]["Tmax"] = Tmax.toFixed(1);
-      results[i]["Tavg"] = Tavg.toFixed(1);
+      results[i]["Tmin"] = Tmin.toFixed(0);
+      results[i]["Tmax"] = Tmax.toFixed(0);
+      results[i]["Tavg"] = Tavg.toFixed(0);
       results[i]["missingDay"] = 0;
       results[i]["cumulativeMissingDays"] = cumulativeMissingDays;
 

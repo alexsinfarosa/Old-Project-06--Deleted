@@ -6,8 +6,10 @@ import isAfter from "date-fns/is_after";
 import isBefore from "date-fns/is_before";
 import isWithinRange from "date-fns/is_within_range";
 import IconNewa from "components/newa_logo.svg";
-import isFuture from "date-fns/is_future";
+// import isFuture from "date-fns/is_future";
 import isThisYear from "date-fns/is_this_year";
+import isToday from "date-fns/is_today";
+
 //  reflexbox
 import { Flex, Box, Heading } from "rebass";
 
@@ -15,7 +17,7 @@ import { Flex, Box, Heading } from "rebass";
 import "styles/shared.styl";
 
 // styled components
-import { Value, Info, A } from "./styles";
+import { Value, A } from "./styles";
 
 import Table from "antd/lib/table";
 import "antd/lib/table/style/css";
@@ -31,11 +33,17 @@ export default class BlueberryMaggot extends Component {
   }
 
   rowColor = rec => {
+    const today = format(new Date(), "YYYY-MM-DD");
     if (isThisYear(rec.date)) {
-      if (isFuture(rec.date)) {
+      if (isBefore(today, rec.date)) {
         return "forecast";
       }
-      return "past";
+      if (isAfter(today, rec.date)) {
+        return "past";
+      }
+      if (isToday(today, rec.date)) {
+        return "today";
+      }
     }
     return "";
   };
@@ -48,7 +56,7 @@ export default class BlueberryMaggot extends Component {
       isGraph,
       state,
       endDate,
-      currentYear,
+      // currentYear,
       startDateYear,
       bmModel
     } = this.props.store.app;
@@ -89,17 +97,17 @@ export default class BlueberryMaggot extends Component {
     };
 
     // To display the 'Forecast' text and style the cell
-    const forecastText = date => {
-      return (
-        <Flex justify="center" align="center" column>
-          <Value>{format(date, "MMM D")}</Value>
-          {startDateYear === currentYear &&
-            isFuture(date) && (
-              <Info style={{ color: "#595959" }}>Forecast</Info>
-            )}
-        </Flex>
-      );
-    };
+    // const forecastText = date => {
+    //   return (
+    //     <Flex justify="center" align="center" column>
+    //       <Value>{format(date, "MMM D")}</Value>
+    //       {startDateYear === currentYear &&
+    //         isFuture(date) && (
+    //           <Info style={{ color: "#595959" }}>Forecast</Info>
+    //         )}
+    //     </Flex>
+    //   );
+    // };
 
     const emergence = (text, record, i) => {
       let ddColor = "";
@@ -137,7 +145,7 @@ export default class BlueberryMaggot extends Component {
         dataIndex: "date",
         key: "date",
         width: 150,
-        render: date => forecastText(date)
+        render: date => format(date, "MMMM D")
       },
       {
         title: "Degree Days (base 50˚F BE)",
@@ -189,7 +197,7 @@ export default class BlueberryMaggot extends Component {
         dataIndex: "date",
         key: "date",
         width: 70,
-        render: date => forecastText(date)
+        render: date => format(date, "MMMM D")
       },
       {
         title: "Degree Days (base 50˚F BE)",
@@ -338,22 +346,34 @@ export default class BlueberryMaggot extends Component {
                     />
                   </Box>
                 </Flex>
-                <Flex my={2} justify="space-between" align="baseline" w={[1]}>
-                  <Box my={1}>NA - not available</Box>
-
-                  <Box my={1}>
-                    <Box>
-                      <A
-                        target="_blank"
-                        href={`http://forecast.weather.gov/MapClick.php?textField1=${
-                          station.lat
-                        }&textField2=${station.lon}`}
-                      >
-                        {" "}
-                        Forecast Details
-                      </A>
+                <Flex my={2} justify="space-between" align="center" w={[1]}>
+                  {!isThisYear(new Date(endDate)) && (
+                    <Box my={1}>NA - not available</Box>
+                  )}
+                  {isThisYear(new Date(endDate)) && (
+                    <Box my={1}>
+                      <Flex justify="space-between" align="center">
+                        <Box w={1 / 2} className="pastLegend" />Past
+                        <Box w={1 / 2} className="forecastLegend" />Forecast
+                      </Flex>
                     </Box>
-                  </Box>
+                  )}
+
+                  {!mobile && (
+                    <Box my={1}>
+                      <Box>
+                        <A
+                          target="_blank"
+                          href={`http://forecast.weather.gov/MapClick.php?textField1=${
+                            station.lat
+                          }&textField2=${station.lon}`}
+                        >
+                          {" "}
+                          Forecast Details
+                        </A>
+                      </Box>
+                    </Box>
+                  )}
                 </Flex>
               </div>
             )}
@@ -371,38 +391,38 @@ export default class BlueberryMaggot extends Component {
                 </Box>
               </Flex>
             )}
-
-            <Flex column align="center">
-              <Box w={[1]} fontSize={[0, 1, 1]}>
-                <i>
-                  <em style={{ color: "black" }}>
-                    Disclaimer: These are theoretical predictions and forecasts.
-                  </em>
-                  The theoretical models predicting pest development or disease
-                  risk use the weather data collected (or forecasted) from the
-                  weather station location. These results should not be
-                  substituted for actual observations of plant growth stage,
-                  pest presence, and disease occurrence determined through
-                  scouting or insect pheromone traps.
-                </i>
-              </Box>
-              <Box w={[1]}>
-                <img
-                  src={IconNewa}
-                  alt="Newa Logo"
-                  style={{
-                    display: "block",
-                    maxWidth: "75px",
-                    height: "auto",
-                    margin: "3em auto"
-                  }}
-                />
-              </Box>
-            </Flex>
           </Flex>
         </Box>
 
         <Box w={[1]}>{isGraph && <Graph />}</Box>
+
+        <Flex column align="center">
+          <Box w={[1]} fontSize={[0, 1, 1]}>
+            <i>
+              <em style={{ color: "black" }}>
+                Disclaimer: These are theoretical predictions and forecasts.
+              </em>
+              The theoretical models predicting pest development or disease risk
+              use the weather data collected (or forecasted) from the weather
+              station location. These results should not be substituted for
+              actual observations of plant growth stage, pest presence, and
+              disease occurrence determined through scouting or insect pheromone
+              traps.
+            </i>
+          </Box>
+          <Box w={[1]}>
+            <img
+              src={IconNewa}
+              alt="Newa Logo"
+              style={{
+                display: "block",
+                maxWidth: "75px",
+                height: "auto",
+                margin: "3em auto"
+              }}
+            />
+          </Box>
+        </Flex>
       </Flex>
     );
   }
