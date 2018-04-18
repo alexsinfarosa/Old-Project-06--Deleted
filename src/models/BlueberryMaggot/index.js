@@ -353,8 +353,16 @@ export default class BlueberryMaggot extends Component {
                   {isThisYear(new Date(endDate)) && (
                     <Box my={1}>
                       <Flex justify="space-between" align="center">
-                        <Box w={1 / 2} className="pastLegend" />Past
-                        <Box w={1 / 2} className="forecastLegend" />Forecast
+                        <Box
+                          w={1 / 2}
+                          className="pastLegend"
+                          style={{ width: 80, height: 20 }}
+                        />Past
+                        <Box
+                          w={1 / 2}
+                          className="forecastLegend"
+                          style={{ width: 80, height: 20 }}
+                        />Forecast
                       </Flex>
                     </Box>
                   )}
