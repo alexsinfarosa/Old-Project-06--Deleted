@@ -125,7 +125,10 @@ export default class AppStore {
   @action
   setStation = stationName => {
     localStorage.removeItem("station");
-    this.station = this.stations.find(station => station.name === stationName);
+    this.station = this.stations.find(
+      station =>
+        station.name === stationName && station.state === this.state.postalCode
+    );
     localStorage.setItem("station", JSON.stringify(this.station));
   };
 
